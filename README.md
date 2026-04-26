@@ -18,7 +18,7 @@
 - [Objectives](#-objectives)
 - [Methodology](#-methodology)
 - [Statistical Results](#-statistical-results)
-- [Tools Used](#-tools-used)
+-  [Tools Used](#-tools-used)
 - [Dataset](#-dataset)
 - [File Structure](#-file-structure)
 - [How to Open](#-how-to-open)
@@ -119,7 +119,7 @@ The project includes an **interactive Excel dashboard** featuring:
 
 | Element | Description |
 |---|---|
-| 🔵 KPI Card 1 | Total Respondents — **569** |
+| 🔵 KPI Card 1 | Total Respondents — **567** |
 | 🟢 KPI Card 2 | Average Monthly Fuel Expense |
 | 🟠 KPI Card 3 | Average Per Capita Fuel — **₹750/month** |
 | 🟣 KPI Card 4 | Income–Fuel Correlation — **r = 0.518** |
@@ -154,3 +154,175 @@ The project includes an **interactive Excel dashboard** featuring:
 - **Method:** Primary survey (Google Form)
 - **Sampling:** Households across Phaltan city
 - **Variables:** Vehicle types, fuel expenses per vehicle, income bracket, family size, commute distance, gender, EV interest, public transport usage
+
+### Data Cleaning (Excel)
+- Removed 30 invalid/duplicate rows (597 → 567)
+- Renamed all columns to clean `snake_case` format and removed unnecessary columns for cleaner and more efficient analysis
+- Extracted numeric values from text (e.g. `"15 L"` → `15`, `"₹6,500"` → `6500`)
+- Standardised 15 occupation variants → 9 clean categories
+- Fixed misplaced data in wrong columns (PT_Frequency had vehicle names; Vehicle_Purpose had frequency values)
+- Replaced junk values with blank (NaN) in numeric columns
+- Filled missing numeric values with **median** (vehicle-specific blanks left as-is — blank = "no vehicle")
+- Created helper columns: (e.g., `Has_Bike`, `Has_Scooty`, `Has_Car`, `Income_Numeric`, `Per_Capita_Fuel`) in separate analysis sheets as needed to support calculations and feature engineering
+
+### Analysis Pipeline
+```
+Raw Survey Data (597 rows)
+        ↓
+Data Cleaning & Validation (567 rows, 30 cols)
+        ↓
+Descriptive Statistics + PivotTables
+        ↓
+Correlation Analysis (r = 0.518)
+        ↓
+ANOVA — Vehicle Type & Ownership Effect
+        ↓
+Hypothesis Testing (T-test, ANOVA ×2, Correlation)
+        ↓
+Multiple Linear Regression (4 predictors)
+        ↓
+Interactive Excel Dashboard
+        ↓
+Recommendations & Report
+```
+
+---
+
+## 📐 Statistical Results
+
+### Hypothesis Tests Summary
+
+| Test | H₀ | p-value | Decision |
+|---|---|---|---|
+| **H1 — T-test** | No gender difference in fuel spending | **5.27 × 10⁻30** | ✅ Reject H₀ |
+| **H2 — ANOVA** | No difference across income groups | **1.8 × 10⁻36** | ✅ Reject H₀ |
+| **H3 — ANOVA** | Vehicle ownership has no effect | **9.98 × 10⁻⁷²** | ✅ Reject H₀ |
+| **H4 — Correlation** | No correlation between income and fuel | **p < 0.05** (r=0.518) | ✅ Reject H₀ |
+
+### ANOVA — Vehicle Ownership Effect
+```
+F(3, 563) = 150.81    p = 9.98 × 10⁻⁷²    α = 0.05
+```
+> The most statistically significant finding in the study. Vehicle ownership explains **44.5% of fuel expenditure variance** (η² = 0.4455 — large effect size).
+
+### Multiple Regression Summary
+```
+Adjusted R²     = 0.5176   (51.76% variance explained)
+F-statistic     = 152.82
+Significance F  = 2.21 × 10⁻⁸⁸
+Observations    = 567
+Standard Error  = ₹2,436
+```
+
+### Correlation
+```
+Income vs Total Fuel Expense:  r = 0.518  (Moderate positive)
+```
+
+---
+
+## 🛠️ Tools Used
+
+| Tool | Purpose |
+|---|---|
+| **Microsoft Excel** | Primary analysis tool |
+| **Excel PivotTables** | Group-level summaries and cross-tabulations |
+| **Excel PivotCharts** | Interactive dashboard charts |
+| **Analysis ToolPak** | Regression, ANOVA, Correlation, Histogram |
+| **Excel Slicers** | Dashboard interactivity (filter by gender/income) |
+| **Conditional Formatting** | Data quality checks (highlighting blanks, outliers) |
+| **AVERAGEIF / COUNTIF** | Group-wise calculations |
+| **T.TEST formula** | Gender hypothesis test |
+| **CORREL formula** | Pearson correlation coefficient |
+| **Nested IF formulas** | Income numeric conversion, vehicle dummy variables |
+
+---
+
+## 📁 Dataset
+
+| Variable | Type | Description |
+|---|---|---|
+| `Total_Monthly_Fuel_Expense` | Numeric | Household total fuel spend (₹/month) |
+| `Per_Capita_Fuel` | Numeric (derived) | Expense ÷ family members |
+| `Income_Numeric` | Numeric (derived) | Income bracket midpoint (₹) |
+| `Num_Vehicles` | Integer | Total vehicles in household |
+| `Family_Members` | Integer | Number of people in household |
+| `Home_Work_Distance_km` | Numeric | Daily commute distance (km) |
+| `Monthly_Income` | Category | 6 income brackets |
+| `Gender` | Category | Male / Female / Prefer not to say |
+| `Vehicle_Types` | Category | Combined vehicle ownership types |
+| `Has_Bike / Has_Car / Has_Scooty` | Binary (derived) | Vehicle type dummy variables |
+| `Consider_EV` | Category | Yes / No / Maybe |
+| `PT_Frequency` | Category | Public transport usage frequency |
+
+---
+
+## 📂 File Structure
+
+```
+fuel-consumption-phaltan/
+│
+├── 📊 Fuel_Consumption_CLEAN.xlsx       ← Main analysis file
+│   ├── Sheet: clean_data                ← Cleaned 567-row dataset
+│   ├── Sheet: Descriptive_Statistics    ← Descriptive statistics
+│   ├── Sheet: Avg_Fuel                  ← Vehicle type analysis (O1)
+│   ├── Sheet: Per_Capita                ← Per capita analysis (O2)
+│   ├── Sheet: correlation               ← Income correlation (O3)
+│   ├── Sheet: ANOVA1                    ← Vehicle ownership ANOVA (O4)
+│   ├── Sheet: t-test                    ← Hypothesis tests (O5)
+│   ├── Sheet: Regression1               ← Multiple regression (O7)
+│   ├── Sheet: PIVOT_Data                ← Dashboard PivotTables (hidden)
+│   └── Sheet: Dashboard                 ← Interactive dashboard
+│
+├── 📄 Project_Report.pdf                ← Full written report
+├── 🖼️ Dashboard_AllData.png             ← Dashboard screenshot (all data)
+├── 🖼️ Dashboard_Female.png              ← Dashboard filtered by Female
+├── 🖼️ Dashboard_HighIncome.png          ← Dashboard filtered by high income
+└── 📖 README.md                         ← This file
+```
+
+---
+
+## 📂 How to Open
+
+1. **Download** `Fuel_Consumption_CLEAN.xlsx`
+2. Open in **Microsoft Excel 2013 or later**
+3. If prompted, click **Enable Content** to allow macros/PivotTables to refresh
+4. Navigate to the **Dashboard** sheet (last tab, coloured dark blue)
+5. Click any button in the **Gender** or **Income Group** slicer to filter all charts
+
+> **Note:** The Analysis ToolPak add-in was used for regression and ANOVA. To re-run these analyses: File → Options → Add-ins → Excel Add-ins → tick Analysis ToolPak.
+
+---
+
+## 💼 Skills Demonstrated
+
+```
+Data Analysis          ████████████████████  Advanced
+Statistical Testing    ███████████████████░  Advanced
+Data Cleaning          ████████████████████  Advanced
+Data Visualisation     ██████████████████░░  Advanced
+Excel (PivotTables)    ████████████████████  Advanced
+Regression Modelling   █████████████████░░░  Intermediate–Advanced
+Dashboard Design       ████████████████░░░░  Intermediate
+Report Writing         ████████████████████  Advanced
+```
+
+**Technical skills used in this project:**
+`Microsoft Excel` · `Descriptive Statistics` · `Hypothesis Testing` · `Pearson Correlation` · `Multiple Linear Regression` · `One-way ANOVA` · `T-test` · `PivotTables` · `PivotCharts` · `Dashboard Design` · `Data Cleaning` · `Survey Research` · `Data Visualisation` · `Report Writing`
+
+---
+
+## 🌱 Sustainable Transport Recommendations
+
+Based on the analysis findings:
+
+1. **Vehicle-sharing initiatives** — Vehicle ownership is the strongest fuel consumption driver (β=2,716). Promoting carpooling and shared mobility in Phaltan can significantly reduce per-household fuel burden.
+2. **Electric 2-wheeler subsidies** — Targeting students and agricultural workers (the two largest respondent groups) with EV subsidy schemes to reduce petrol dependency.
+3. **Improved public transport** — Home-to-work distance significantly predicts fuel use (β=88/km). Better bus/auto-rickshaw connectivity on high-commute corridors reduces personal vehicle dependency.
+4. **Tiered fuel policy** — High-income households (above ₹1 lakh) spend 7.6× more per capita than low-income households. A tiered approach to fuel taxation with cross-subsidisation for lower-income groups can improve equity.
+5. **EV charging infrastructure** — Survey data shows a meaningful proportion of respondents are open to EV adoption — infrastructure investment in Phaltan will accelerate this transition.
+
+---
+
+#
