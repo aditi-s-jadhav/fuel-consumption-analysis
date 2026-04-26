@@ -62,10 +62,10 @@ The analysis identifies the key **drivers of fuel consumption**, estimates **per
 ### 2. Fuel by Vehicle Type
 | Vehicle Type | Avg Monthly Fuel Expense (₹) |
 |---|---|
-| Car owners | ₹8,015 |
-| Commercial vehicle | ₹6,200 |
-| Bike owners | ₹1,646 |
-| Scooty owners | ₹735 |
+| Car owners | ₹5,117 |
+| Commercial vehicle | ₹9,236 |
+| Bike owners | ₹4,116 |
+| Scooty owners | ₹1,413 |
 
 ---
 
@@ -95,3 +95,62 @@ The analysis identifies the key **drivers of fuel consumption**, estimates **per
 
 > Multiple regression using 4 predictors explains **51.76%** of the variation in monthly fuel expenditure — nearly double the explanatory power of income alone.
 
+> Multiple regression using 4 predictors explains **51.76%** of the variation in monthly fuel expenditure — nearly double the explanatory power of income alone.
+
+**Regression Equation:**
+```
+Fuel Expense = −4,215 + 0.034(Income) + 2,716(Num_Vehicles) + 375(Family_Members) + 88(Distance)
+```
+
+| Predictor | Coefficient (β) | p-value | Significance |
+|---|---|---|---|
+| **Number of Vehicles** | +2,716 | 9.84 × 10⁻³⁸ | ✅ Highly significant |
+| **Monthly Income** | +0.034 | 6.97 × 10⁻¹³ | ✅ Significant |
+| **Family Members** | +375 | 0.00057 | ✅ Significant |
+| **Home–Work Distance (km)** | +88 | 0.000152 | ✅ Significant |
+
+**Interpretation:** Every additional vehicle a household owns adds ₹2,716 to their monthly fuel bill. Every extra km of commute adds ₹88/month.
+
+---
+
+## 📊 Dashboard Preview
+
+The project includes an **interactive Excel dashboard** featuring:
+
+| Element | Description |
+|---|---|
+| 🔵 KPI Card 1 | Total Respondents — **569** |
+| 🟢 KPI Card 2 | Average Monthly Fuel Expense |
+| 🟠 KPI Card 3 | Average Per Capita Fuel — **₹750/month** |
+| 🟣 KPI Card 4 | Income–Fuel Correlation — **r = 0.518** |
+| 📊 Chart 1 | Avg Fuel Expense by Vehicle Type (Bar chart) |
+| 📊 Chart 2 | Avg Fuel Expense by Income Group (Column chart) |
+| 📊 Chart 3 | Avg Fuel Expense by Num Vehicles (Column chart) |
+| 📊 Chart 4 | Per Capita Fuel Distribution (Histogram) |
+| 🎛️ Slicer 1 | Filter by **Gender** |
+| 🎛️ Slicer 2 | Filter by **Income Group** |
+
+> All PivotCharts respond to slicers — clicking "Female" or an income group instantly filters all 4 charts simultaneously.
+
+---
+
+## 🎯 Objectives
+
+| # | Objective | Status |
+|---|---|---|
+| O1 | Estimate average monthly fuel consumption by vehicle type | ✅ Complete |
+| O2 | Estimate monthly per capita fuel consumption in Phaltan | ✅ Complete |
+| O3 | Study the relationship between income and fuel consumption | ✅ Complete |
+| O4 | Examine the effect of vehicle ownership on fuel consumption | ✅ Complete |
+| O5 | Test statistical significance using appropriate hypothesis tests | ✅ Complete |
+| O6 | Suggest sustainable transport planning strategies | ✅ Complete |
+| O7 | Examine factors affecting fuel consumption (regression) | ✅ Complete |
+
+---
+
+## 🔬 Methodology
+
+### Data Collection
+- **Method:** Primary survey (Google Form)
+- **Sampling:** Households across Phaltan city
+- **Variables:** Vehicle types, fuel expenses per vehicle, income bracket, family size, commute distance, gender, EV interest, public transport usage
