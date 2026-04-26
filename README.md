@@ -45,3 +45,53 @@ The analysis identifies the key **drivers of fuel consumption**, estimates **per
 ---
 
 ## 🔑 Key Findings
+
+### 1. Per Capita Fuel Expenditure
+| Metric | Value |
+|--------|-------|
+| **Average monthly per capita fuel expense** | ₹750 / person / month |
+| Median per capita | ₹400 / person / month |
+| Minimum | ₹40 / person / month |
+| Maximum | ₹5,000 / person / month |
+| Standard Deviation | ₹763 |
+
+> The right-skewed distribution (mean > median) indicates that a small number of high-income, multi-vehicle households significantly pull the average upward.
+
+---
+
+### 2. Fuel by Vehicle Type
+| Vehicle Type | Avg Monthly Fuel Expense (₹) |
+|---|---|
+| Car owners | ₹8,015 |
+| Commercial vehicle | ₹6,200 |
+| Bike owners | ₹1,646 |
+| Scooty owners | ₹735 |
+
+---
+
+### 3. Fuel by Income Group
+| Income Group | Avg Per Capita Fuel (₹) | Count |
+|---|---|---|
+| Below ₹10,000 | 319 | 125 |
+| ₹10,000 – 30,000 | 419 | 101 |
+| ₹30,000 – 50,000 | 804 | 203 |
+| ₹50,000 – 70,000 | 1,075 | 98 |
+| ₹70,000 – 1,00,000 | 1,447 | 23 |
+| Above ₹1,00,000 | 2,429 | 17 |
+
+---
+
+### 4. Fuel by Vehicle Ownership
+| Vehicles Owned | Avg Monthly Fuel Expense (₹) | Count |
+|---|---|---|
+| 1 vehicle | 1,657 | 357 |
+| 2 vehicles | 5,574 | 171 |
+| 3 vehicles | 8,729 | 38 |
+| 4 vehicles | 15,000 | 1 |
+
+---
+
+### 5. Regression — What Drives Fuel Consumption?
+
+> Multiple regression using 4 predictors explains **51.76%** of the variation in monthly fuel expenditure — nearly double the explanatory power of income alone.
+
