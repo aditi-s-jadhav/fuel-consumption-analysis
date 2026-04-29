@@ -1,4 +1,4 @@
-# 🚗 Fuel Consumption Analysis - Phaltan, Maharashtra
+# 🚗 Fuel Consumption Analysis — Phaltan, Maharashtra
 
 ![Excel](https://img.shields.io/badge/Microsoft_Excel-217346?style=for-the-badge&logo=microsoft-excel&logoColor=white)
 ![Statistics](https://img.shields.io/badge/Statistics-Regression%20%7C%20ANOVA%20%7C%20Correlation-blue?style=for-the-badge)
@@ -18,7 +18,7 @@
 - [Objectives](#-objectives)
 - [Methodology](#-methodology)
 - [Statistical Results](#-statistical-results)
--  [Tools Used](#-tools-used)
+- [Tools Used](#-tools-used)
 - [Dataset](#-dataset)
 - [File Structure](#-file-structure)
 - [How to Open](#-how-to-open)
@@ -38,7 +38,7 @@ The analysis identifies the key **drivers of fuel consumption**, estimates **per
 | **Survey Period** | October 2025 |
 | **Sample Size** | 567 households |
 | **Original Responses** | 597 (30 removed during cleaning) |
-| **Variables Collected** | 30 columns across vehicle, income, fuel, demographic data |
+| **Variables Collected** | 30 columns after cleaning (original: 41) |
 | **Analysis Method** | Descriptive Statistics, Regression, ANOVA, Hypothesis Testing |
 | **Tool** | Microsoft Excel (with Analysis ToolPak) |
 
@@ -60,12 +60,12 @@ The analysis identifies the key **drivers of fuel consumption**, estimates **per
 ---
 
 ### 2. Fuel by Vehicle Type
-| Vehicle Type | Avg Monthly Fuel Expense (₹) |
-|---|---|
-| Car owners | ₹5,117 |
-| Commercial vehicle | ₹9,236 |
-| Bike owners | ₹4,116 |
-| Scooty owners | ₹1,413 |
+| Vehicle Type | Avg Monthly Fuel (Litres) | Avg Monthly Fuel Expense (₹) |
+|---|---|---|
+| Commercial vehicle owners | 69.10 L | ₹9,236 |
+| Car owners | 27.20 L | ₹5,117 |
+| Bike owners | 10.50 L | ₹4,116 |
+| Scooty owners | 7.14 L | ₹1,413 |
 
 ---
 
@@ -92,8 +92,6 @@ The analysis identifies the key **drivers of fuel consumption**, estimates **per
 ---
 
 ### 5. Regression — What Drives Fuel Consumption?
-
-> Multiple regression using 4 predictors explains **51.76%** of the variation in monthly fuel expenditure — nearly double the explanatory power of income alone.
 
 > Multiple regression using 4 predictors explains **51.76%** of the variation in monthly fuel expenditure — nearly double the explanatory power of income alone.
 
@@ -157,13 +155,13 @@ The project includes an **interactive Excel dashboard** featuring:
 
 ### Data Cleaning (Excel)
 - Removed 30 invalid/duplicate rows (597 → 567)
-- Renamed all columns to clean `snake_case` format and removed unnecessary columns for cleaner and more efficient analysis
+- Renamed all 30 columns to clean `snake_case` format
 - Extracted numeric values from text (e.g. `"15 L"` → `15`, `"₹6,500"` → `6500`)
 - Standardised 15 occupation variants → 9 clean categories
 - Fixed misplaced data in wrong columns (PT_Frequency had vehicle names; Vehicle_Purpose had frequency values)
 - Replaced junk values with blank (NaN) in numeric columns
 - Filled missing numeric values with **median** (vehicle-specific blanks left as-is — blank = "no vehicle")
-- Created helper columns: (e.g., `Has_Bike`, `Has_Scooty`, `Has_Car`, `Income_Numeric`, `Per_Capita_Fuel`) in separate analysis sheets as needed to support calculations and feature engineering
+- Created helper columns in dedicated analysis sheets: `Has_Bike`, `Has_Scooty`, `Has_Car` (in `Fuel_Data_Used_Avg_Fuel(l)`) and `Income_Numeric` (in `Correlation`), `Per_Capita_Fuel` (in `Per_Capita_Expenses`)
 
 ### Analysis Pipeline
 ```
@@ -194,8 +192,8 @@ Recommendations & Report
 
 | Test | H₀ | p-value | Decision |
 |---|---|---|---|
-| **H1 — T-test** | No gender difference in fuel spending | **5.27 × 10⁻30** | ✅ Reject H₀ |
-| **H2 — ANOVA** | No difference across income groups | **1.8 × 10⁻36** | ✅ Reject H₀ |
+| **H1 — T-test** | No gender difference in fuel spending | **t = 12.86, p = 5.27 × 10⁻³⁰** | ✅ Reject H₀ |
+| **H2 — ANOVA** | No difference across income groups | **F = 41.79, p = 1.39 × 10⁻³⁶** | ✅ Reject H₀ |
 | **H3 — ANOVA** | Vehicle ownership has no effect | **9.98 × 10⁻⁷²** | ✅ Reject H₀ |
 | **H4 — Correlation** | No correlation between income and fuel | **p < 0.05** (r=0.518) | ✅ Reject H₀ |
 
@@ -203,7 +201,7 @@ Recommendations & Report
 ```
 F(3, 563) = 150.81    p = 9.98 × 10⁻⁷²    α = 0.05
 ```
-> The most statistically significant finding in the study. Vehicle ownership explains **44.5% of fuel expenditure variance** (η² = 0.4455 — large effect size).
+> The most statistically significant finding in the study. Vehicle ownership explains **44.56% of fuel expenditure variance** (η² = 0.4456 — large effect size).
 
 ### Multiple Regression Summary
 ```
@@ -262,23 +260,54 @@ Income vs Total Fuel Expense:  r = 0.518  (Moderate positive)
 ```
 fuel-consumption-phaltan/
 │
-├── 📊 Fuel_Consumption_CLEAN.xlsx       ← Main analysis file
-│   ├── Sheet: clean_data                ← Cleaned 567-row dataset
-│   ├── Sheet: Descriptive_Statistics    ← Descriptive statistics
-│   ├── Sheet: Avg_Fuel                  ← Vehicle type analysis (O1)
-│   ├── Sheet: Per_Capita                ← Per capita analysis (O2)
-│   ├── Sheet: correlation               ← Income correlation (O3)
-│   ├── Sheet: ANOVA1                    ← Vehicle ownership ANOVA (O4)
-│   ├── Sheet: t-test                    ← Hypothesis tests (O5)
-│   ├── Sheet: Regression1               ← Multiple regression (O7)
-│   ├── Sheet: PIVOT_Data                ← Dashboard PivotTables (hidden)
-│   └── Sheet: Dashboard                 ← Interactive dashboard
+├── 📊 Fuel_Consumption_Analysis_project.xlsx     ← Main analysis workbook (26 sheets)
+│   │
+│   ├── [RAW & CLEAN DATA]
+│   │   ├── Form Responses 1              ← Original 597 raw survey responses
+│   │   └── clean_data                    ← Cleaned dataset (567 rows × 30 columns)
+│   │
+│   ├── [DESCRIPTIVE ANALYSIS]
+│   │   ├── Clean_Data_Summary            ← Summary statistics table
+│   │   ├── Descriptive_Statistics        ← Mean, median, SD, skewness per variable
+│   │   ├── Outlier_detection             ← IQR method outlier identification
+│   │   ├── Pie_Chart                     ← Vehicle type ownership distribution
+│   │   └── Box_plot                      ← Distribution by group
+│   │
+│   ├── [OBJECTIVE 1 — Avg fuel by vehicle type]
+│   │   ├── Fuel_Data_Used_Avg_Fuel(l)    ← Helper columns: Has_Bike, Has_Car, Has_Scooty
+│   │   ├── Avg_Fuel(LMonth)              ← Avg litres per vehicle type
+│   │   └── Avg_Fuel_Expense              ← Avg ₹ expense per vehicle type
+│   │
+│   ├── [OBJECTIVE 2 — Per capita fuel]
+│   │   ├── Per_Capita_Expenses           ← Per_Capita_Fuel column + summary stats
+│   │   ├── Histrogram                    ← Per capita distribution histogram
+│   │   └── per_capita_fuel               ← Per capita regression analysis
+│   │
+│   ├── [OBJECTIVE 3 — Income vs fuel]
+│   │   ├── Correlation                   ← Income_Numeric + CORREL results
+│   │   └── Correlation_Matrix            ← Full variable correlation matrix
+│   │
+│   ├── [OBJECTIVE 4 & 5 — Vehicle ownership + Hypothesis tests]
+│   │   ├── ANOVA1                        ← ANOVA: vehicle ownership effect
+│   │   ├── ANOVA2                        ← ANOVA: income groups
+│   │   ├── T-test                        ← T-test: gender vs fuel spending
+│   │   └── Hypothesis_Summary            ← All 4 tests summary table
+│   │
+│   ├── [OBJECTIVE 7 — Regression]
+│   │   ├── Regression1                   ← Multiple regression (expense as Y)
+│   │   └── Regression2                   ← Regression (per capita as Y)
+│   │
+│   ├── [OUTPUT & RECOMMENDATIONS]
+│   │   ├── Recomendations                ← Sustainable transport strategies
+│   │   ├── Project_Summary               ← Summary of all findings
+│   │   ├── Pivot_Charts                  ← PivotTable data for dashboard
+│   │   └── Dashboard                     ← Interactive Excel dashboard with slicers
 │
-├── 📄 Project_Report.pdf                ← Full written report
-├── 🖼️ Dashboard_AllData.png             ← Dashboard screenshot (all data)
-├── 🖼️ Dashboard_Female.png              ← Dashboard filtered by Female
-├── 🖼️ Dashboard_HighIncome.png          ← Dashboard filtered by high income
-└── 📖 README.md                         ← This file
+├── 📄 Project_Summary_Report.docx        ← Project summary report (editable Word)
+├── 🖼️ Dashboard_AllData.png              ← Dashboard screenshot (all data)
+├── 🖼️ Dashboard_Female.png               ← Dashboard filtered by Female
+├── 🖼️ Dashboard_HighIncome.png           ← Dashboard filtered by high income
+└── 📖 README.md                          ← This file
 ```
 
 ---
@@ -325,4 +354,15 @@ Based on the analysis findings:
 
 ---
 
-#
+## 👤 Author
+
+**Aditi Subhash Jadhav**
+Statistics Student | Data Analysis Enthusiast
+
+📧 aditijadhav416@gmail.com
+🔗 (https://www.linkedin.com/in/aditi-jadhav-3b2310385?utm_source=share_via&utm_content=profile&utm_medium=member_android)
+📍 Phaltan, Maharashtra, India
+
+---
+
+*This project was completed as part of a research/academic project in 2025–26.*
