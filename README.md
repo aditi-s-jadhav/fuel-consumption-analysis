@@ -360,7 +360,7 @@ Based on the analysis findings:
 Statistics Student | Data Analysis Enthusiast
 
 📧 aditijadhav416@gmail.com
-🔗 (https://www.linkedin.com/in/aditi-jadhav-3b2310385?utm_source=share_via&utm_content=profile&utm_medium=member_android)
+🔗 (https://www.linkedin.com/in/aditi-jadhav-3b2310385)
 📍 Phaltan, Maharashtra, India
 
 ---
