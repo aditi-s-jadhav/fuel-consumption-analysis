@@ -35,7 +35,7 @@ The analysis identifies the key **drivers of fuel consumption**, estimates **per
 | Detail | Value |
 |--------|-------|
 | **Location** | Phaltan, Satara District, Maharashtra |
-| **Survey Period** | October 2025 |
+| **Survey Period** | December 2025 |
 | **Sample Size** | 567 households |
 | **Original Responses** | 597 (30 removed during cleaning) |
 | **Variables Collected** | 30 columns after cleaning (original: 41) |
@@ -365,4 +365,4 @@ Statistics Student | Data Analysis Enthusiast
 
 ---
 
-*This project was completed as part of a research/academic project in 2025–26.*
+*Originally created as an academic research project 2025-26, this work was further enhanced into a multi-tool analytics portfolio project.*
